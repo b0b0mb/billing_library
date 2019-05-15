@@ -14,7 +14,7 @@ A billing system which handles the sale of a manufacturer's widgets and has the 
 3. Reseller
   * Each reseller has its own sale price
   * Payback to manufacturer is $50 per widget
-  
+
 ---
 # Setup
 Inside project directory:
@@ -33,8 +33,8 @@ rg.billing
 rg.seller_profits
 rg.company_revenue
 ```
-  
---- 
+
+---
 # Classes
 
 ## Affiliate
@@ -42,7 +42,7 @@ rg.company_revenue
 Initialize with the affiliate's name and widget sale price
 
     Affiliate.new("affiliate_name", 75.0)
-    
+
 ### Public Methods
 #### order_widgets(quantity)
 * Increases the number of widgets sold by quantity
@@ -63,7 +63,7 @@ Initialize with the affiliate's name and widget sale price
 Initialize with the reseller's name and widget sale price
 
     Reseller.new("affiliate_name", 75.0)
-    
+
 ### Public Methods
 #### order_widgets(quantity)
 * Increases the number of widgets sold by quantity
@@ -82,15 +82,15 @@ Initialize with the reseller's name and widget sale price
 ## DirectSale
 
     DirectSale::SALE_PRICE returns the current price manufacturer sells widgets at
-    
-    
+
+
 ## FakeOrderGenerator
 Used to generate fake orders which are randomly created and assigned to 3 affiliates, 2 resellers, and direct sales
 ### Constructor
 Initialize with the number of fake orders you want to generate. *Default value is 100*. Object generates orders upon initialization.
 
     FakeOrderGenerator.new(100)
-    
+
 ### Public Methods
 #### affiliates
 * returns a list of Affiliate objects with random orders
@@ -119,10 +119,46 @@ ReportGenerator.new(sellers: [], direct_sales: 0)
 
 ### Public Methods
 #### billing
-Returns a json object containing how much each individual affiliate and reseller owes the manufacturer
+Returns a json object built by BillingReport, containing how much each individual affiliate and reseller owes the manufacturer
 #### seller_profits
-Returns a json object containing the profit value of each individual affiliate and reseller
+Returns a json object built by SellerProfitsReport, containing the profit value of each individual affiliate and reseller
 #### company_revenue
+Returns a json object built by CompanyRevenueReport containing a breakdown of all revenues for the manufacturer.
+* Total revenue
+* Total revenue from affiliates
+* Revenue from each individual affiliate
+* Total revenue from resellers
+* Revenue from each individual reseller
+* Total revenue from direct sales
+
+## BillingReport
+### Constructor
+Initialize with a list of sellers (Affiliate objects and Reseller objects)
+```
+BillingReport.new(sellers: [])
+```
+### Public Methods
+#### generate
+Returns a json object containing how much each individual affiliate and reseller owes the manufacturer
+
+## SellerProfitsReport
+### Constructor
+Initialize with a list of sellers (Affiliate objects and Reseller objects)
+```
+SellerProfitsReport.new(sellers: [])
+```
+### Public Methods
+#### generate
+Returns a json object containing the profit value of each individual affiliate and reseller
+
+## CompanyRevenueReport
+### Constructor
+Initialize with a list of sellers (Affiliate objects and Reseller objects), and direct sales count
+```
+CompanyRevenueReport.new(sellers: [], direct_sales: 0)
+```
+### Public Methods
+#### generate
 Returns a json object containing a breakdown of all revenues for the manufacturer.
 * Total revenue
 * Total revenue from affiliates
